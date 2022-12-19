@@ -13,15 +13,15 @@
         <span>账号密码登录</span>
         <span class="line"></span>
       </div>
-      <el-form :model="form" class="w-[250px]">
-        <el-form-item>
+      <el-form ref="formRef" :rules="rules" :model="form" class="w-[250px]">
+        <el-form-item prop="username">
           <el-input v-model="form.username" placeholder="请输入账号">
             <template #prefix>
               <el-icon class="el-input__icon"><User /></el-icon>
             </template>
           </el-input>
         </el-form-item>
-        <el-form-item>
+        <el-form-item prop="password">
           <el-input type="password" v-model="form.password" show-password placeholder="请输入密码">
             <template #prefix>
               <el-icon class="el-input__icon"><Lock /></el-icon>
@@ -29,7 +29,7 @@
           </el-input>
         </el-form-item>
         <el-form-item>
-          <el-button type="primary" round class="login-btn" color="#7A8FE5" @click="onSubmit">登 录</el-button>
+          <el-button type="primary" round class="login-btn" color="#7A8FE5" @click="onSubmit(formRef)">登 录</el-button>
         </el-form-item>
       </el-form>
     </el-col>
@@ -37,7 +37,9 @@
 </template>
 
 <script setup>
-import { reactive } from 'vue'
+import { reactive, ref } from 'vue'
+
+const formRef = ref(null)
 
 // do not use same name with ref
 const form = reactive({
@@ -45,8 +47,24 @@ const form = reactive({
   password: ''
 })
 
-const onSubmit = () => {
-  console.log('submit!')
+const rules = reactive({
+  username: [
+    { required: true, message: '请输入账号', trigger: 'blur' }
+  ],
+  password: [
+    { required: true, message: '请输入密码', trigger: 'blur' }
+  ]
+})
+
+const onSubmit = async (formEl) => {
+  if (!formEl) return
+  await formEl.validate((valid, fields) => {
+    if (valid) {
+      console.log('submit')
+    } else {
+      console.log('error submit!', fields)
+    }
+  }) 
 }
 </script>
 
