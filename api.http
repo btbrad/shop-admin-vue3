@@ -6,3 +6,6 @@ content-type: application/json
     "username": "admin",
     "password": "123456"
 }
+
+### 获取当前用户信息 /currentUser
+GET http://localhost:2333/currentUser HTTP/1.1

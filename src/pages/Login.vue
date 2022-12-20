@@ -29,7 +29,7 @@
           </el-input>
         </el-form-item>
         <el-form-item>
-          <el-button type="primary" round class="login-btn" color="#7A8FE5" @click="onSubmit(formRef)">登 录</el-button>
+          <el-button type="primary" round class="login-btn" color="#7A8FE5" :loading="loading" @click="onSubmit(formRef)">登 录</el-button>
         </el-form-item>
       </el-form>
     </el-col>
@@ -38,13 +38,23 @@
 
 <script setup>
 import { reactive, ref } from 'vue'
+import { login, getCurrentInfo } from '@/api/user.js'
+import { ElNotification } from 'element-plus'
+import { useRouter } from 'vue-router'
+import { useCookies } from '@vueuse/integrations/useCookies'
+
+const router = useRouter()
+
+const cookies = useCookies()
 
 const formRef = ref(null)
 
+const loadingRef = ref(false)
+
 // do not use same name with ref
 const form = reactive({
-  username: '',
-  password: ''
+  username: 'admin',
+  password: '123456'
 })
 
 const rules = reactive({
@@ -60,7 +70,24 @@ const onSubmit = async (formEl) => {
   if (!formEl) return
   await formEl.validate((valid, fields) => {
     if (valid) {
-      console.log('submit')
+      loadingRef.value = true
+      // 请求登录
+      login(form.username, form.password).then(res => {
+        ElNotification({
+          message: 'Login Success!',
+          type: 'success',
+          duration: 3000
+        })
+        cookies.set('token', res.data.token)
+        // 获取用户信息
+        getCurrentInfo().then(res => {
+          console.log('userInfo', res)
+        })
+
+        router.push('/')
+      }).finally(() => {
+        loading.value = false
+      })
     } else {
       console.log('error submit!', fields)
     }
