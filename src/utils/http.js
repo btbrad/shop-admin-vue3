@@ -1,6 +1,6 @@
 import axios from 'axios'
-import { ElNotification } from 'element-plus'
-import { useCookies } from '@vueuse/integrations/useCookies'
+import { toast } from '@/utils/utils'
+import { getToken } from '@/utils/auth'
 
 const service = axios.create({
   baseURL: 'http://localhost:2333/',
@@ -9,8 +9,7 @@ const service = axios.create({
 })
 
 service.interceptors.request.use(function(config) {
-  const cookie = useCookies()
-  const token = cookie.get("token")
+  const token = getToken()
   if (token) {
     config.headers["token"] = token
   }
@@ -22,11 +21,8 @@ service.interceptors.request.use(function(config) {
 service.interceptors.response.use(function(response) {
   return response
 }, function(error) {
-  ElNotification({
-    message: error.response.data.message || '请求失败',
-    type: 'error',
-    duration: 3000
-  })
+  console.log('error', error)
+  toast(error.response.data.message || '请求失败','error')
   return Promise.reject(error)
 })
 
