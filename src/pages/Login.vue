@@ -42,6 +42,9 @@ import { login, getCurrentInfo } from '@/api/user.js'
 import { toast } from '@/utils/utils'
 import { useRouter } from 'vue-router'
 import { setToken } from '@/utils/auth'
+import { mainStore } from '@/store/index'
+
+const store = mainStore()
 
 const router = useRouter()
 
@@ -76,6 +79,7 @@ const onSubmit = async (formEl) => {
         // 获取用户信息
         getCurrentInfo().then(res => {
           console.log('userInfo', res)
+          store.setUserInfo(res.data)
         })
 
         router.push('/')

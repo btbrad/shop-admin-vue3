@@ -3,8 +3,10 @@ import ElementPlus from 'element-plus'
 import 'element-plus/dist/index.css'
 import App from './App.vue'
 import router from './router'
+import { createPinia } from 'pinia'
 import * as ElementPlusIconsVue from '@element-plus/icons-vue'
 
+const pinia = createPinia()
 const app = createApp(App)
 app.use(ElementPlus)
 for (const [key, component] of Object.entries(ElementPlusIconsVue)) {
@@ -12,4 +14,5 @@ for (const [key, component] of Object.entries(ElementPlusIconsVue)) {
 }
 import 'virtual:windi.css'
 app.use(router)
+app.use(pinia)
 app.mount('#app')
