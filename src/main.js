@@ -5,6 +5,7 @@ import App from './App.vue'
 import router from './router'
 import { createPinia } from 'pinia'
 import * as ElementPlusIconsVue from '@element-plus/icons-vue'
+import './permission'
 
 const pinia = createPinia()
 const app = createApp(App)
