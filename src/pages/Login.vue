@@ -37,16 +37,15 @@
 </template>
 
 <script setup>
-import { reactive, ref } from 'vue'
-import { login, getCurrentInfo } from '@/api/user.js'
-import { toast } from '@/utils/utils'
-import { useRouter } from 'vue-router'
-import { setToken } from '@/utils/auth'
+import { onBeforeUnmount, reactive, ref, onMounted } from 'vue'
+import { useRouter, useRoute } from 'vue-router'
 import { mainStore } from '@/store/index'
 
 const store = mainStore()
 
 const router = useRouter()
+
+const route = useRoute()
 
 const formRef = ref(null)
 
@@ -73,16 +72,8 @@ const onSubmit = async (formEl) => {
     if (valid) {
       loadingRef.value = true
       // 请求登录
-      login(form.username, form.password).then(res => {
-        toast('Login Success!', 'success')
-        setToken(res.data.token)
-        // 获取用户信息
-        getCurrentInfo().then(res => {
-          console.log('userInfo', res)
-          store.setUserInfo(res.data)
-        })
-
-        router.push('/')
+      store.loginReq(form.username, form.password).then(res => {
+        router.push(route.query?.redirect ? route.query?.redirect : '/')
       }).finally(() => {
         loadingRef.value = false
       })
@@ -91,6 +82,21 @@ const onSubmit = async (formEl) => {
     }
   }) 
 }
+
+const onKeyup = (e) => {
+  console.log(e)
+  if (e.key === "Enter") {
+    onSubmit(formRef.value)
+  }
+}
+
+onMounted(() => {
+  document.addEventListener('keyup', onKeyup)
+})
+
+onBeforeUnmount(() => {
+  document.removeEventListener('keyup', onKeyup)
+})
 </script>
 
 <style scoped>

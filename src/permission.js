@@ -1,14 +1,24 @@
 import router from '@/router/index'
 import { getToken } from '@/utils/auth.js'
+import { mainStore } from '@/store/index'
 
-router.beforeEach((to, from, next) => {
+router.beforeEach(async(to, from, next) => {
   const token = getToken()
-  if (!token && to.path !== '/login') {
-    return next({ path: '/login' })
-  }
-  if (token && to.path === '/login') {
-    return next({ path: from.path ? from.path : '/' })
+  if (!token) {
+    if (to.path !== '/login') {
+      return next({path: '/login', query: { redirect: to.path }})
+    } else {
+      next()
+    }
   } else {
-    next()
+    if (to.path === '/login') {
+      return next({ path: from.path ? from.path : '/' })
+    } else {
+      const store = mainStore()
+      if (Object.keys(store.user).length <= 0) {
+        await store.getUserInfo()
+      }
+      next()
+    }
   }
 })
