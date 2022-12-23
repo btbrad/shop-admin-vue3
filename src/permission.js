@@ -5,6 +5,8 @@ import { showLoadingBar, hideLoadingBar } from '@/utils/utils'
 
 router.beforeEach(async(to, from, next) => {
   showLoadingBar()
+  const title = to.meta.title
+  document.title = title
   const token = getToken()
   if (!token) {
     if (to.path !== '/login') {
@@ -23,6 +25,7 @@ router.beforeEach(async(to, from, next) => {
       next()
     }
   }
+
 })
 
 router.afterEach((to, from) => {
