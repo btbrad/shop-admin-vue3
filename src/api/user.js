@@ -10,3 +10,7 @@ export const login = (username, password) => {
 export const getCurrentInfo = () => {
   return http.get('/currentUser')
 }
+
+export const logout = () => {
+  return http.get('/logout')
+}

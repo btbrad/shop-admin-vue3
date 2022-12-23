@@ -12,6 +12,10 @@
     "ruleNames": [],
     "super": []
   },
+  "logout": {
+    "success": true,
+    "message": "登出成功"
+  },
   "posts": [
     {
       "id": 1,

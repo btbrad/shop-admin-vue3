@@ -1,7 +1,7 @@
 import { defineStore } from 'pinia'
-import { login, getCurrentInfo } from '@/api/user.js'
+import { login, getCurrentInfo, logout } from '@/api/user.js'
 import { toast } from '@/utils/utils'
-import { setToken } from '@/utils/auth'
+import { setToken, removeToken } from '@/utils/auth'
 
 export const mainStore = defineStore('main', {
   state: () => {
@@ -23,6 +23,11 @@ export const mainStore = defineStore('main', {
     async getUserInfo() {
       const res = await getCurrentInfo()
       this.setUserInfo(res.data)
+    },
+    async logoutReq() {
+      const res = logout()
+      this.setUserInfo({})
+      removeToken()
     }
   }
 })

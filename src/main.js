@@ -6,6 +6,7 @@ import router from './router'
 import { createPinia } from 'pinia'
 import * as ElementPlusIconsVue from '@element-plus/icons-vue'
 import './permission'
+import 'nprogress/nprogress.css'
 
 const pinia = createPinia()
 const app = createApp(App)

@@ -1,8 +1,10 @@
 import router from '@/router/index'
 import { getToken } from '@/utils/auth.js'
 import { mainStore } from '@/store/index'
+import { showLoadingBar, hideLoadingBar } from '@/utils/utils'
 
 router.beforeEach(async(to, from, next) => {
+  showLoadingBar()
   const token = getToken()
   if (!token) {
     if (to.path !== '/login') {
@@ -21,4 +23,8 @@ router.beforeEach(async(to, from, next) => {
       next()
     }
   }
+})
+
+router.afterEach((to, from) => {
+  hideLoadingBar()
 })
