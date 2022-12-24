@@ -1,4 +1,5 @@
 import { createRouter, createWebHistory } from 'vue-router'
+import Admin from '@/layouts/admin.vue'
 import Index from '@/pages/index.vue'
 const About = () => import('@/pages/about.vue')
 const NotFound = () => import('@/pages/404.vue')
@@ -7,11 +8,18 @@ const Login = () => import('@/pages/Login.vue')
 const routes = [
   {
     path: '/',
-    component: Index,
-    meta: {
-      title: '首页'
-    }
-  }, 
+    component: Admin,
+    redirect: '/home',
+    children: [
+      {
+        path: '/home',
+        component: Index,
+        meta: {
+          title: '首页'
+        }
+      }, 
+    ]
+  },
   {
     path: '/login',
     component: Login,

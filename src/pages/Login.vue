@@ -73,7 +73,7 @@ const onSubmit = async (formEl) => {
       loadingRef.value = true
       // 请求登录
       store.loginReq(form.username, form.password).then(res => {
-        router.push(route.query?.redirect ? route.query?.redirect : '/')
+        router.push(route.query?.redirect ? route.query?.redirect : '/home')
       }).finally(() => {
         loadingRef.value = false
       })
