@@ -6,8 +6,8 @@
   "currentUser": {
     "id": 1,
     "username": "admin",
-    "avatar": "",
     "menus": [],
+    "avatar": "",
     "role": { "id": 2, "name": "超级管理员" },
     "ruleNames": [],
     "super": []
