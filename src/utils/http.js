@@ -3,7 +3,7 @@ import { toast } from '@/utils/utils'
 import { getToken } from '@/utils/auth'
 
 const service = axios.create({
-  baseURL: 'http://localhost:2333/',
+  baseURL: import.meta.env.VITE_BASE_URL,
   withCredentials: true,
   timeout: 5000,
 })

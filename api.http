@@ -9,3 +9,15 @@ content-type: application/json
 
 ### 获取当前用户信息 /currentUser
 GET http://localhost:2333/currentUser HTTP/1.1
+
+### 退出登录 /logout
+GET http://localhost:2333/logout HTTP/1.1
+
+### 修改密码 /resetPassword
+POST http://localhost:2333/resetPassword HTTP/1.1
+content-type: application/json
+
+{
+    "oldPassword": "123456",
+    "newPassword": "123456"
+}

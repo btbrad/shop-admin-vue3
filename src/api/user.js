@@ -14,3 +14,9 @@ export const getCurrentInfo = () => {
 export const logout = () => {
   return http.get('/logout')
 }
+
+export const resetPassword = (params) => {
+  return http.post('/resetPassword', {
+    ...params
+  })
+}

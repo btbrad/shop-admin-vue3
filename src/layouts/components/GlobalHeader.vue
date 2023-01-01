@@ -30,18 +30,71 @@
         </template>
       </el-dropdown>
     </div>
+
+    <el-drawer
+      v-model="drawer"
+      title="修改密码"
+      direction="rtl"
+      :before-close="handleClose"
+    >
+      <el-form ref="formRef" :rules="rules" :model="form" label-width="80px" status-icon>
+        <el-form-item prop="oldPassword" label="旧密码">
+          <el-input type="password" v-model="form.oldPassword" show-password placeholder="请输入旧密码">
+          </el-input>
+        </el-form-item>
+        <el-form-item prop="newPassword" label="新密码">
+          <el-input type="password" v-model="form.newPassword" show-password placeholder="请输入新密码">
+          </el-input>
+        </el-form-item>
+        <el-form-item prop="confirmPassword" label="确认密码">
+          <el-input type="password" v-model="form.confirmPassword" show-password placeholder="请输入确认密码">
+          </el-input>
+        </el-form-item>
+        <el-form-item>
+          <el-button type="primary" round class="login-btn" color="#7A8FE5" :loading="loadingRef" @click="onSubmit(formRef)">登 录</el-button>
+        </el-form-item>
+      </el-form>
+    </el-drawer>
+
   </div>
 </template>
 
 <script setup>
+import { ref, reactive } from 'vue'
 import { useRouter } from 'vue-router'
 import { mainStore } from '@/store/index.js'
+import { ElMessageBox } from 'element-plus'
 import { useFullscreen } from '@vueuse/core'
+import { resetPassword } from '@/api/user'
+import { removeToken } from '@/utils/auth'
 
 const { isFullscreen, toggle: toggleFullscreen } = useFullscreen()
 
 const store = mainStore()
 const router = useRouter()
+
+const drawer = ref(false)
+const formRef = ref(null)
+
+const form = reactive({
+  oldPassword: '',
+  resetPassword: '',
+  confirmPassword: ''
+})
+
+const rules = reactive({
+  oldPassword: [
+    { required: true, message: '请输入旧密码', trigger: 'blur' }
+  ],
+  newPassword: [
+    { required: true, message: '请输入新密码', trigger: 'blur' }
+  ],
+  confirmPassword: [
+    { required: true, message: '请再次输入新密码', trigger: 'blur' }
+  ],
+})
+
+const loadingRef = ref(false)
 
 const onLogout = () => {
   store.logoutReq().then(() => {
@@ -55,13 +108,40 @@ const handleCommand = (c) => {
       onLogout()
       break
     case "resetPassword":
-      console.log('修改密码')
+      drawer.value = true
       break
   }
 }
 
 const handleRefresh = () => {
   location.reload()
+}
+
+const handleClose = (done) => {
+  ElMessageBox.confirm('确认要关闭吗？')
+    .then(() => {
+      done()
+    })
+    .catch(() => {
+      // catch error
+    })
+}
+
+const onSubmit = async (formEl) => {
+  if (!formEl) return
+  await formEl.validate((valid, fields) => {
+    if (valid) {
+      resetPassword(form.value).then(() => {
+        drawer.value = false
+        removeToken()
+        router.push('/login')
+      }).finally(() => {
+        loadingRef.value = false
+      })
+    } else {
+      console.log('error submit!', fields)
+    }
+  }) 
 }
 
 </script>
@@ -82,5 +162,8 @@ const handleRefresh = () => {
 }
 .right {
   @apply ml-auto mr-4 flex align-middle text-light-500;
+}
+.login-btn {
+  @apply w-[250px] text-light-200 hover:text-light-100;
 }
 </style>
