@@ -31,7 +31,7 @@
       </el-dropdown>
     </div>
 
-    <el-drawer
+    <!-- <el-drawer
       v-model="drawer"
       title="修改密码"
       direction="rtl"
@@ -54,7 +54,27 @@
           <el-button type="primary" round class="login-btn" color="#7A8FE5" :loading="loadingRef" @click="onSubmit(formRef)">登 录</el-button>
         </el-form-item>
       </el-form>
-    </el-drawer>
+    </el-drawer> -->
+
+    <FormDrawer ref="formDrawerRef" title="修改密码" @submit="onSubmit(formRef)">
+      <el-form ref="formRef" :rules="rules" :model="form" label-width="80px" status-icon>
+        <el-form-item prop="oldPassword" label="旧密码">
+          <el-input type="password" v-model="form.oldPassword" show-password placeholder="请输入旧密码">
+          </el-input>
+        </el-form-item>
+        <el-form-item prop="newPassword" label="新密码">
+          <el-input type="password" v-model="form.newPassword" show-password placeholder="请输入新密码">
+          </el-input>
+        </el-form-item>
+        <el-form-item prop="confirmPassword" label="确认密码">
+          <el-input type="password" v-model="form.confirmPassword" show-password placeholder="请输入确认密码">
+          </el-input>
+        </el-form-item>
+        <!-- <el-form-item>
+          <el-button type="primary" round class="login-btn" color="#7A8FE5" :loading="loadingRef" @click="onSubmit(formRef)">登 录</el-button>
+        </el-form-item> -->
+      </el-form>
+    </FormDrawer>
 
   </div>
 </template>
@@ -67,6 +87,7 @@ import { ElMessageBox } from 'element-plus'
 import { useFullscreen } from '@vueuse/core'
 import { resetPassword } from '@/api/user'
 import { removeToken } from '@/utils/auth'
+import FormDrawer from '@/components/FormDrawer.vue'
 
 const { isFullscreen, toggle: toggleFullscreen } = useFullscreen()
 
@@ -75,6 +96,8 @@ const router = useRouter()
 
 const drawer = ref(false)
 const formRef = ref(null)
+
+const formDrawerRef = ref(null)
 
 const form = reactive({
   oldPassword: '',
@@ -108,7 +131,8 @@ const handleCommand = (c) => {
       onLogout()
       break
     case "resetPassword":
-      drawer.value = true
+      // drawer.value = true
+      formDrawerRef.value.open()
       break
   }
 }
