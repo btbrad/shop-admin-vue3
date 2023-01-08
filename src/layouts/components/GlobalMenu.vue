@@ -1,11 +1,12 @@
 <template>
   <div :class="['global-menu', { 'isExpand': isExpand, 'isCollapsed': !isExpand }]">
     <el-menu
-        default-active="2"
+        router
         class="border-none"
         :collapse="!isExpand"
         :collapse-transition="false"
         unique-opened
+        :default-active="defaultActive"
         @select="handleSelect"
       >
         <template v-for="(item, index) in asideMenus" :key="index">
@@ -26,10 +27,14 @@
 </template>
 
 <script setup>
-import { useRouter } from 'vue-router'
+import { ref } from 'vue'
+import { useRouter, useRoute } from 'vue-router'
 import useMenuExpand from '../hooks/useMenuExpand'
 
 const router = useRouter()
+const route = useRoute()
+
+const defaultActive = ref(route.path)
 
 const { isExpand } = useMenuExpand()
 
