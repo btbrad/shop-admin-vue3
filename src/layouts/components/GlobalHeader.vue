@@ -4,7 +4,10 @@
       <el-icon class="mt-1"><Aim /></el-icon>
       <span class="ml-2">Thrift Shop</span>
     </div>
-    <el-icon class="icon-btn"><Expand /></el-icon>
+    <el-icon class="icon-btn" @click="toggle">
+      <Fold v-if="isExpand" />
+      <Expand v-else />
+    </el-icon>
     <el-tooltip effect="dark" content="刷新" placement="bottom">
       <el-icon class="icon-btn ml-2" @click="handleRefresh"><Refresh /></el-icon>
     </el-tooltip>
@@ -58,6 +61,7 @@ import { useFullscreen } from '@vueuse/core'
 import FormDrawer from '@/components/FormDrawer.vue'
 import useResetPassword from '../hooks/useResetPassword'
 import useDrawer from '../hooks/useDrawer'
+import useMenuExpand from '../hooks/useMenuExpand'
 
 const { isFullscreen, toggle: toggleFullscreen } = useFullscreen()
 
@@ -65,6 +69,8 @@ const store = mainStore()
 
 const { formDrawerRef } = useDrawer()
 const { form, formRef, rules, onSubmit } = useResetPassword(formDrawerRef)
+
+const { isExpand, toggle } = useMenuExpand()
 
 const onLogout = () => {
   store.logoutReq().then(() => {

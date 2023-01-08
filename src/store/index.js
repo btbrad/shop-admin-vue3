@@ -6,7 +6,8 @@ import { setToken, removeToken } from '@/utils/auth'
 export const mainStore = defineStore('main', {
   state: () => {
     return {
-      user: {} // 用户信息
+      user: {}, // 用户信息
+      isExpand: true // 侧边菜单栏收缩/展开
     }
   },
   getters: {},
@@ -28,6 +29,10 @@ export const mainStore = defineStore('main', {
       const res = logout()
       this.setUserInfo({})
       removeToken()
+    },
+    toggleMenuExpand() {
+      console.log(111)
+      this.isExpand = !this.isExpand
     }
   }
 })

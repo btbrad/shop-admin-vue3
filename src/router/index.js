@@ -18,6 +18,13 @@ const routes = [
           title: '首页'
         }
       }, 
+      {
+        path: '/goods/list',
+        component: () => import('@/pages/goods/list.vue'),
+        meta: {
+          title: '商品列表'
+        }
+      }
     ]
   },
   {
