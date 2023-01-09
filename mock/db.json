@@ -6,7 +6,34 @@
   "currentUser": {
     "id": 1,
     "username": "admin",
-    "menus": [],
+    "menus": [
+      {
+        "id": 1,
+        "name": "后台面板",
+        "icon": "help",
+        "children": [
+          {
+            "id": "1-1",
+            "name": "主控台",
+            "icon": "HomeFilled",
+            "frontpath": "/"
+          }
+        ]
+      },
+      {
+        "id": 2,
+        "name": "商品管理",
+        "icon": "ShoppingBag",
+        "children": [
+          {
+            "id": "2-1",
+            "name": "商品列表",
+            "icon": "GoodsFilled",
+            "frontpath": "/goods/list"
+          }
+        ]
+      }
+    ],
     "avatar": "",
     "role": {
       "id": 2,

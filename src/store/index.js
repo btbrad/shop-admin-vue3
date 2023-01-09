@@ -7,7 +7,8 @@ export const mainStore = defineStore('main', {
   state: () => {
     return {
       user: {}, // 用户信息
-      isExpand: true // 侧边菜单栏收缩/展开
+      isExpand: true, // 侧边菜单栏收缩/展开
+      menus: []
     }
   },
   getters: {},
@@ -21,9 +22,13 @@ export const mainStore = defineStore('main', {
     setUserInfo(info) {
       this.user = JSON.parse(JSON.stringify(info))
     },
+    setMenus(menus) {
+      this.menus = JSON.parse(JSON.stringify(menus))
+    },
     async getUserInfo() {
       const res = await getCurrentInfo()
       this.setUserInfo(res.data)
+      this.setMenus(res.data.menus)
     },
     async logoutReq() {
       const res = logout()
