@@ -66,4 +66,7 @@ const handleSelect = (path) => {
 .global-menu.isCollapsed {
   /* width: 64px; */
 }
+.global-menu::-webkit-scrollbar {
+  width: 0;
+}
 </style>

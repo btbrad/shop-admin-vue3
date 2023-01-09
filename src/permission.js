@@ -1,7 +1,8 @@
-import router from '@/router/index'
+import { router } from '@/router/index'
 import { getToken } from '@/utils/auth.js'
 import { mainStore } from '@/store/index'
 import { showLoadingBar, hideLoadingBar } from '@/utils/utils'
+import { addRoutes } from './router'
 
 router.beforeEach(async(to, from, next) => {
   showLoadingBar()
@@ -15,14 +16,17 @@ router.beforeEach(async(to, from, next) => {
       next()
     }
   } else {
+    let hasNewRoute = false
     if (to.path === '/login') {
       return next({ path: from.path ? from.path : '/' })
     } else {
       const store = mainStore()
       if (Object.keys(store.user).length <= 0) {
-        await store.getUserInfo()
+        const res = await store.getUserInfo()
+        console.log(111, res)
+        hasNewRoute = addRoutes(res.menus)
       }
-      next()
+      hasNewRoute ? next(to.fullPath) : next()
     }
   }
 

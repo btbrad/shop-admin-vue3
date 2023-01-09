@@ -29,6 +29,7 @@ export const mainStore = defineStore('main', {
       const res = await getCurrentInfo()
       this.setUserInfo(res.data)
       this.setMenus(res.data.menus)
+      return res.data
     },
     async logoutReq() {
       const res = logout()
@@ -36,7 +37,6 @@ export const mainStore = defineStore('main', {
       removeToken()
     },
     toggleMenuExpand() {
-      console.log(111)
       this.isExpand = !this.isExpand
     }
   }

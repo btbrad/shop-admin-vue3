@@ -16,7 +16,7 @@
             "id": "1-1",
             "name": "主控台",
             "icon": "HomeFilled",
-            "frontpath": "/"
+            "frontpath": "/home"
           }
         ]
       },
