@@ -63,6 +63,10 @@ import useResetPassword from '../hooks/useResetPassword'
 import useDrawer from '../hooks/useDrawer'
 import useMenuExpand from '../hooks/useMenuExpand'
 
+import { useRouter } from 'vue-router'
+
+const router = useRouter()
+
 const { isFullscreen, toggle: toggleFullscreen } = useFullscreen()
 
 const store = mainStore()

@@ -32,9 +32,12 @@ export const mainStore = defineStore('main', {
       return res.data
     },
     async logoutReq() {
-      const res = logout()
-      this.setUserInfo({})
-      removeToken()
+      return new Promise((resolve, reject) => {
+        const res = logout()
+        this.setUserInfo({})
+        removeToken()
+        resolve(res)
+      })
     },
     toggleMenuExpand() {
       this.isExpand = !this.isExpand
