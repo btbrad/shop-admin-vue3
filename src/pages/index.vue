@@ -1,7 +1,7 @@
 <template>
   <div>
     首页{{ store.user.username }}
-    <el-button type="danger" @click="onLogout">退出登录</el-button>
+    <!-- <el-button type="danger" @click="onLogout">退出登录</el-button> -->
   </div>
 </template>
 
