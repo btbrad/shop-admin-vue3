@@ -1,21 +1,22 @@
 <template>
   <div class="global-tag-list">
     <el-tabs
-      v-model="editableTabsValue"
+      v-model="activeTab"
       type="card"
       class="demo-tabs"
-      closable
       @tab-remove="removeTab"
+      @tab-change="changeTab"
     >
       <el-tab-pane
-        v-for="item in editableTabs"
-        :key="item.name"
-        :label="item.title"
-        :name="item.name"
+        v-for="item in tabList"
+        :key="item.path"
+        :label="item.name"
+        :name="item.path"
+        :closable="item.path !== '/home'"
       >
       </el-tab-pane>
     </el-tabs>
-    <el-dropdown>
+    <el-dropdown @command="onCommand">
       <span class="el-dropdown-link flex items-center">
         <el-icon class="el-icon--right">
           <arrow-down />
@@ -23,11 +24,8 @@
       </span>
       <template #dropdown>
         <el-dropdown-menu>
-          <el-dropdown-item>Action 1</el-dropdown-item>
-          <el-dropdown-item>Action 2</el-dropdown-item>
-          <el-dropdown-item>Action 3</el-dropdown-item>
-          <el-dropdown-item disabled>Action 4</el-dropdown-item>
-          <el-dropdown-item divided>Action 5</el-dropdown-item>
+          <el-dropdown-item command="clearOther">关闭其他</el-dropdown-item>
+          <el-dropdown-item command="clearAll">全部关闭</el-dropdown-item>
         </el-dropdown-menu>
       </template>
     </el-dropdown>
@@ -35,49 +33,75 @@
 </template>
 
 <script setup>
-import { ref } from 'vue'
+import { ref, watch } from 'vue'
 import { ArrowDown } from '@element-plus/icons-vue'
+import { useRoute, useRouter, onBeforeRouteUpdate } from 'vue-router'
+import { useCookies } from '@vueuse/integrations/useCookies'
 
-let tabIndex = 2
-const editableTabsValue = ref('2')
-const editableTabs = ref([
+const route = useRoute()
+const router = useRouter()
+const cookie = useCookies()
+
+const activeTab = ref(route.path)
+const tabList = ref([
   {
-    title: 'Tab 1',
-    name: '1',
-    content: 'Tab 1 content',
-  },
-  {
-    title: 'Tab 2',
-    name: '2',
-    content: 'Tab 2 content',
+    name: '主控台',
+    path: '/home'
   },
 ])
 
-const addTab = (targetName) => {
-  const newTabName = `${++tabIndex}`
-  editableTabs.value.push({
-    title: 'New Tab',
-    name: newTabName,
-    content: 'New Tab content',
-  })
-  editableTabsValue.value = newTabName
-}
-const removeTab = (targetName) => {
-  const tabs = editableTabs.value
-  let activeName = editableTabsValue.value
-  if (activeName === targetName) {
-    tabs.forEach((tab, index) => {
-      if (tab.name === targetName) {
-        const nextTab = tabs[index + 1] || tabs[index - 1]
-        if (nextTab) {
-          activeName = nextTab.name
-        }
-      }
-    })
+// 添加标签导航
+const addTab = tab => {
+  const item = tabList.value.find(t => t.path === tab.path)
+  if (!item) {
+    tabList.value.push(tab)
   }
+  // cookie.set('tabList', tabList.value)
+}
 
-  editableTabsValue.value = activeName
-  editableTabs.value = tabs.filter((tab) => tab.name !== targetName)
+onBeforeRouteUpdate((to, from) => {
+  addTab({
+    name: to.meta.title,
+    path: to.path
+  })
+  activeTab.value = to.path
+})
+
+const changeTab = (path) => {
+  router.push(path)
+  activeTab.value = path
+}
+
+const initTabList = () => {
+  let localTabList = cookie.get('tabList')
+  if (tabList.length) {
+    tabList.value = localTabList
+  }
+}
+
+initTabList()
+
+watch(tabList, () => {
+  cookie.set('tabList', tabList.value)
+}, { deep: true })
+
+const removeTab = (path) => {
+  if (activeTab.value === path) {
+    const idx = tabList.value.findIndex(t => t.path === path)
+    console.log('idx', idx)
+    activeTab.value = (tabList.value[idx - 1].path ? tabList.value[idx - 1].path : tabList.value[idx + 1].path)
+  }
+  tabList.value = tabList.value.filter(p => path !== p.path)
+}
+
+const onCommand = (c) => {
+  if (c === 'clearAll') {
+    activeTab.value = '/home'
+    tabList.value = tabList.value.filter(p => p.path === '/home')
+  }
+  if (c === 'clearOther') {
+    tabList.value = tabList.value.filter(p => (p.path === '/home' || p.path === activeTab.value))
+  }
 }
 </script>
 
@@ -107,5 +131,9 @@ const removeTab = (targetName) => {
 }
 :deep(.el-tabs__nav-next), :deep(.el-tabs__nav-prev) {
   line-height: 25px;
+}
+:deep(.is-disabled) {
+  cursor: not-allowed;
+  @apply text-gray-300；
 }
 </style>
