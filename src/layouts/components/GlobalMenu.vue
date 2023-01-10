@@ -31,7 +31,7 @@
 
 <script setup>
 import { ref } from 'vue'
-import { useRouter, useRoute } from 'vue-router'
+import { useRouter, useRoute, onBeforeRouteUpdate } from 'vue-router'
 import useMenuExpand from '../hooks/useMenuExpand'
 import { mainStore } from '@/store/index'
 
@@ -46,8 +46,13 @@ const { isExpand } = useMenuExpand()
 
 const asideMenus = store.menus
 const handleSelect = (path) => {
+  defaultActive.value = path
   router.push(path)
 }
+
+onBeforeRouteUpdate((to, from) => {
+  defaultActive.value = to.path
+})
 </script>
 
 <style scoped>
