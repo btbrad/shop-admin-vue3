@@ -43,6 +43,7 @@
         </el-card>
       </el-col>
     </el-row>
+    <index-navs />
   </div>
 </template>
 
@@ -51,6 +52,7 @@ import { ref } from 'vue'
 import { mainStore } from '@/store/index'
 import { getStatistics1 } from '@/api/index'
 import CountTo from '@/components/CountTo.vue'
+import IndexNavs from '../components/IndexNavs.vue'
 
 const store = mainStore()
 

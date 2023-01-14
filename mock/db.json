@@ -32,6 +32,19 @@
             "frontpath": "/goods/list"
           }
         ]
+      },
+      {
+        "id": 3,
+        "name": "用户管理",
+        "icon": "User",
+        "children": [
+          {
+            "id": "2-1",
+            "name": "用户列表",
+            "icon": "UserFilled",
+            "frontpath": "/user/list"
+          }
+        ]
       }
     ],
     "avatar": "",
