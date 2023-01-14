@@ -74,7 +74,7 @@ const changeTab = (path) => {
 
 const initTabList = () => {
   let localTabList = cookie.get('tabList')
-  if (tabList.length) {
+  if (localTabList.length) {
     tabList.value = localTabList
   }
 }
