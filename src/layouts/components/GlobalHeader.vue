@@ -104,6 +104,7 @@ const handleRefresh = () => {
   @apply bg-indigo-500 fixed top-0 left-0 flex items-center text-light-50;
   height: 64px;
   width: 100vw;
+  z-index: 99;
 }
 .logo {
   width: 200px;

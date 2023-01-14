@@ -108,6 +108,7 @@ const onCommand = (c) => {
 <style scoped>
 .global-tag-list {
   height: 25px;
+  margin-bottom: 10px;
   @apply flex items-center;
 }
 :deep(.el-tabs) {

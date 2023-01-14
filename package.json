@@ -14,6 +14,7 @@
     "@vueuse/integrations": "^9.7.0",
     "axios": "^1.2.1",
     "element-plus": "^2.2.27",
+    "gsap": "^3.11.4",
     "nprogress": "^0.2.0",
     "pinia": "^2.0.28",
     "universal-cookie": "^4.0.4",

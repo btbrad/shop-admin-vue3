@@ -46,5 +46,45 @@
     "success": true,
     "message": "登出成功"
   },
-  "resetPassword": {}
+  "resetPassword": {},
+  "statistics1": {
+    "panels": [
+      {
+        "title": "支付订单",
+        "value": 49,
+        "subTitle": "总支付订单",
+        "subunit": "",
+        "subValue": 49,
+        "unit": "年",
+        "unitColor": "success"
+      },
+      {
+        "title": "订单量",
+        "value": 555,
+        "subTitle": "转化率",
+        "subunit": "",
+        "subValue": "60%",
+        "unit": "周",
+        "unitColor": "danger"
+      },
+      {
+        "title": "销售额",
+        "value": 3.54,
+        "subTitle": "总销售额",
+        "subunit": "",
+        "subValue": 3.54,
+        "unit": "年",
+        "unitColor": ""
+      },
+      {
+        "title": "新增用户",
+        "value": 17,
+        "subTitle": "总用户",
+        "subunit": "",
+        "subValue": 17,
+        "unit": "年",
+        "unitColor": "warning"
+      }
+    ]
+  }
 }
