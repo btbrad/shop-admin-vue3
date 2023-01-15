@@ -1,5 +1,5 @@
 <template>
-  <el-card shadow="never" class="mt-5">
+  <el-card shadow="never">
     <template #header>
     <div class="flex justify-between">
       <span class="text-sm">订单统计</span>
@@ -91,6 +91,6 @@ useResizeObserver(el, () => {
 })
 
 onBeforeUnmount(() => {
-  if(myChart) echarts.disposal(myChart)
+  if(myChart) echarts?.disposal && echarts?.disposal(myChart)
 })
 </script>

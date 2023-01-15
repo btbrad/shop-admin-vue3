@@ -45,11 +45,14 @@
     </el-row>
     <index-navs />
 
-    <el-row :gutter="20">
+    <el-row class="mt-5" :gutter="20">
       <el-col :span="12" :offset="0">
         <index-chart />
       </el-col>
-      <el-col :span="12" :offset="0"></el-col>
+      <el-col :span="12" :offset="0">
+        <index-card title="店铺及商品提示" tag="店铺及商品提示" :data="goods" />
+        <index-card class="mt-3" title="交易提示" tag="需要立即处理的交易订单" :data="order" />
+      </el-col>
     </el-row>
     
   </div>
@@ -58,17 +61,25 @@
 <script setup>
 import { ref } from 'vue'
 import { mainStore } from '@/store/index'
-import { getStatistics1 } from '@/api/index'
+import { getStatistics1, getStatistics2 } from '@/api/index'
 import CountTo from '@/components/CountTo.vue'
 import IndexNavs from '../components/IndexNavs.vue'
 import IndexChart from '../components/IndexChart.vue'
+import IndexCard from '../components/IndexCard.vue'
 
 const store = mainStore()
 
 const panels = ref([])
+const goods = ref([])
+const order = ref([])
 
 getStatistics1().then(res => {
   panels.value = res.data.panels
 })
 
+getStatistics2().then(res => {
+  const { goods: goodsData, order: orderData } = res.data
+  goods.value = goodsData
+  order.value = orderData
+})
 </script>

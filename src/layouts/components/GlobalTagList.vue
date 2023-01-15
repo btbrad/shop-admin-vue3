@@ -88,7 +88,6 @@ watch(tabList, () => {
 const removeTab = (path) => {
   if (activeTab.value === path) {
     const idx = tabList.value.findIndex(t => t.path === path)
-    console.log('idx', idx)
     activeTab.value = (tabList.value[idx - 1].path ? tabList.value[idx - 1].path : tabList.value[idx + 1].path)
   }
   tabList.value = tabList.value.filter(p => path !== p.path)
