@@ -44,6 +44,14 @@
       </el-col>
     </el-row>
     <index-navs />
+
+    <el-row :gutter="20">
+      <el-col :span="12" :offset="0">
+        <index-chart />
+      </el-col>
+      <el-col :span="12" :offset="0"></el-col>
+    </el-row>
+    
   </div>
 </template>
 
@@ -53,6 +61,7 @@ import { mainStore } from '@/store/index'
 import { getStatistics1 } from '@/api/index'
 import CountTo from '@/components/CountTo.vue'
 import IndexNavs from '../components/IndexNavs.vue'
+import IndexChart from '../components/IndexChart.vue'
 
 const store = mainStore()
 

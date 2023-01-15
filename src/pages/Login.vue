@@ -84,7 +84,6 @@ const onSubmit = async (formEl) => {
 }
 
 const onKeyup = (e) => {
-  console.log(e)
   if (e.key === "Enter") {
     onSubmit(formRef.value)
   }

@@ -23,7 +23,6 @@ router.beforeEach(async(to, from, next) => {
       const store = mainStore()
       if (Object.keys(store.user).length <= 0) {
         const res = await store.getUserInfo()
-        console.log(111, res)
         hasNewRoute = addRoutes(res.menus)
       }
       hasNewRoute ? next(to.fullPath) : next()

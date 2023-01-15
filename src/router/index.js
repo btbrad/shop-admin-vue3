@@ -182,7 +182,6 @@ export const addRoutes = (menus) => {
     } )
   }
   addSubRoutes(menus)
-  console.log(router.getRoutes())
   return hasNewRoute
 }
 
