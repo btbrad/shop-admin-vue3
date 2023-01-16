@@ -1,7 +1,7 @@
 <template>
   <div>
     <!-- 首页{{ store.user.username }} -->
-    <el-row :gutter="20">
+    <el-row v-permission="['getStatistics1,GET']" :gutter="20">
       <el-col v-if="!panels.length" :span="6" :offset="0" v-for="i in panels.length" :key="i">
         <el-skeleton style="width: 100%" animated loading>
           <template #template>
@@ -43,13 +43,13 @@
         </el-card>
       </el-col>
     </el-row>
-    <index-navs />
+    <index-navs/>
 
     <el-row class="mt-5" :gutter="20">
       <el-col :span="12" :offset="0">
-        <index-chart />
+        <index-chart v-permission="['getStatistics3,GET']" />
       </el-col>
-      <el-col :span="12" :offset="0">
+      <el-col v-permission="['getStatistics2,GET']"  :span="12" :offset="0">
         <index-card title="店铺及商品提示" tag="店铺及商品提示" :data="goods" />
         <index-card class="mt-3" title="交易提示" tag="需要立即处理的交易订单" :data="order" />
       </el-col>

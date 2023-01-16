@@ -8,7 +8,8 @@ export const mainStore = defineStore('main', {
     return {
       user: {}, // 用户信息
       isExpand: true, // 侧边菜单栏收缩/展开
-      menus: []
+      menus: [],
+      ruleNames: []
     }
   },
   getters: {},
@@ -25,10 +26,14 @@ export const mainStore = defineStore('main', {
     setMenus(menus) {
       this.menus = JSON.parse(JSON.stringify(menus))
     },
+    setRuleNames(rule) {
+      this.ruleNames = JSON.parse(JSON.stringify(rule))
+    },
     async getUserInfo() {
       const res = await getCurrentInfo()
       this.setUserInfo(res.data)
       this.setMenus(res.data.menus)
+      this.setRuleNames(res.data.ruleNames)
       return res.data
     },
     async logoutReq() {

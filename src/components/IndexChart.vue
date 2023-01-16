@@ -46,6 +46,7 @@ let myChart = null
 // 初始化echarts
 onMounted(() => {
   const chartDom = document.querySelector('#chart')
+  if(!chartDom) return 
   myChart = echarts.init(chartDom)
 
   getData()
